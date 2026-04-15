@@ -1,0 +1,517 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); color: var(--color-text-primary); }
+
+.prd-wrap { padding: 2rem 0; max-width: 680px; }
+
+.prd-header { margin-bottom: 2rem; }
+.prd-badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; padding: 3px 10px; border-radius: var(--border-radius-md); background: var(--color-background-info); color: var(--color-text-info); margin-bottom: 12px; text-transform: uppercase; }
+.prd-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); line-height: 1.3; margin-bottom: 8px; }
+.prd-sub { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+.prd-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; padding-top: 16px; border-top: 0.5px solid var(--color-border-tertiary); }
+.prd-meta-item { font-size: 12px; color: var(--color-text-secondary); }
+.prd-meta-item strong { color: var(--color-text-primary); font-weight: 500; }
+
+.section { margin-bottom: 2rem; }
+.section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-tertiary); margin-bottom: 10px; }
+.section-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 10px; }
+
+.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.problem-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.problem-card .p-icon { font-size: 16px; margin-bottom: 6px; }
+.problem-card .p-head { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.problem-card .p-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.module-row { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.module-row:last-child { border-bottom: none; padding-bottom: 0; }
+.module-num { min-width: 28px; height: 28px; border-radius: 50%; background: var(--color-background-info); color: var(--color-text-info); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.module-content .m-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+.module-content .m-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 5px; }
+.tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); font-family: var(--font-mono); }
+.tag.blue { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; font-family: var(--font-sans); }
+.tag.green { background: var(--color-background-success); color: var(--color-text-success); border-color: transparent; font-family: var(--font-sans); }
+.tag.amber { background: var(--color-background-warning); color: var(--color-text-warning); border-color: transparent; font-family: var(--font-sans); }
+
+.pipeline { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin: 12px 0; }
+.pipe-step { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.pipe-arrow { color: var(--color-text-tertiary); font-size: 14px; padding: 0 4px; }
+
+.metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.metric-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.metric-card .m-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 6px; font-weight: 500; }
+.metric-list { list-style: none; }
+.metric-list li { font-size: 12px; color: var(--color-text-secondary); padding: 2px 0; padding-left: 12px; position: relative; }
+.metric-list li::before { content: "—"; position: absolute; left: 0; color: var(--color-text-tertiary); font-size: 10px; }
+
+.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.team-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 12px; }
+.team-card .t-role { font-size: 12px; font-weight: 500; color: var(--color-text-info); margin-bottom: 4px; }
+.team-card .t-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+.team-card .t-tasks { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 0.5px; background: var(--color-border-secondary); }
+.tl-item { position: relative; margin-bottom: 14px; }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-dot { position: absolute; left: -21px; top: 5px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-background-info); border: 1.5px solid var(--color-border-info); }
+.tl-phase { font-size: 11px; font-weight: 500; color: var(--color-text-info); margin-bottom: 2px; }
+.tl-title { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.tl-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.risk-row { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+.risk-row:last-child { border-bottom: none; }
+.risk-label { min-width: 160px; color: var(--color-text-primary); font-weight: 500; }
+.risk-mit { color: var(--color-text-secondary); flex: 1; }
+
+.inno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.inno-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.inno-card .i-title { font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--color-text-primary); }
+.inno-card .i-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+
+.kpi-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.kpi { background: var(--color-background-success); color: var(--color-text-success); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: var(--border-radius-md); }
+
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 2rem 0; }
+
+@media (max-width: 480px) {
+  .problem-grid, .team-grid, .inno-grid { grid-template-columns: 1fr; }
+  .metric-grid { grid-template-columns: 1fr 1fr; }
+  .pipeline { gap: 4px; }
+}
+</style>
+
+<div class="prd-wrap">
+
+  <!-- Header -->
+  <div class="prd-header">
+    <div class="prd-badge">Product Requirements Document</div>
+    <div class="prd-title">GeoAI Village Drainage Intelligence Platform</div>
+    <div class="prd-sub">An end-to-end AI/ML system that converts drone-based LiDAR point clouds into flood-resilient drainage infrastructure plans for rural villages — powering the Ministry of Panchayati Raj Geospatial Intelligence Challenge.</div>
+    <div class="prd-meta">
+      <div class="prd-meta-item"><strong>Version</strong> &nbsp;1.0</div>
+      <div class="prd-meta-item"><strong>Status</strong> &nbsp;Prototype</div>
+      <div class="prd-meta-item"><strong>Input</strong> &nbsp;SVAMITVA LiDAR (.las/.laz)</div>
+      <div class="prd-meta-item"><strong>Powered by</strong> &nbsp;Geo-Intel Lab, IITTNiF</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Problem -->
+  <div class="section">
+    <div class="section-label">Section 1 — Problem</div>
+    <div class="section-title">Why rural India floods — and what's missing</div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="p-head">No accurate terrain model</div>
+        <div class="p-body">Manual surveys miss fine-scale elevation variation in abadi zones. Slope estimates are wrong, drainage is placed incorrectly.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">Natural flow paths ignored</div>
+        <div class="p-body">Roads are elevated without planned outflow. Water stagnates in low-lying plots, damaging kutcha homes and crops.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">No flood prediction layer</div>
+        <div class="p-body">Disaster response is entirely reactive. There is no model identifying which parcels will waterlog before monsoon.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">Drainage built without optimization</div>
+        <div class="p-body">Government schemes lack terrain intelligence, leading to inefficient routing, excess excavation cost, and low impact.</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px; border-left: 3px solid var(--color-border-info); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;">
+      <div style="font-size:13px; font-weight:500; margin-bottom:4px;">One-line problem</div>
+      <div style="font-size:13px; color:var(--color-text-secondary); line-height:1.6;">Raw SVAMITVA drone point clouds exist, but there is no automated, intelligent pipeline that converts them into actionable, cost-optimized drainage infrastructure for village planners.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Goal -->
+  <div class="section">
+    <div class="section-label">Section 2 — Goals & Non-Goals</div>
+    <div class="section-title">What this system must do</div>
+    <div class="card">
+      <div style="font-size:13px; font-weight:500; margin-bottom:8px; color:var(--color-text-success)">Goals</div>
+      <ul style="list-style:none; padding:0;">
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary);">G1 — Automatically classify drone point cloud into ground, building, vegetation, road, water</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary);">G2 — Generate survey-quality Digital Terrain Model (DTM) at ≤1m resolution</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary);">G3 — Detect natural drainage paths, micro-watersheds, and depressions</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary);">G4 — Predict waterlogging hotspots using ML on terrain + hydrological features</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0; border-bottom:0.5px solid var(--color-border-tertiary);">G5 — Generate optimized drainage network (minimizing cost, excavation, disruption)</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:4px 0;">G6 — Export GIS-ready layers (GeoTIFF, SHP) and host interactive dashboard</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-top:10px;">
+      <div style="font-size:13px; font-weight:500; margin-bottom:8px; color:var(--color-text-danger)">Non-Goals</div>
+      <ul style="list-style:none; padding:0;">
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:3px 0;">— Real-time flood monitoring (sensor integration is out of scope)</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:3px 0;">— Urban-scale processing (village scale only at this stage)</li>
+        <li style="font-size:13px; color:var(--color-text-secondary); padding:3px 0;">— Actual construction management or contractor interfacing</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Modules -->
+  <div class="section">
+    <div class="section-label">Section 3 — Technical Modules</div>
+    <div class="section-title">Seven functional modules, one unified pipeline</div>
+
+    <div class="pipeline">
+      <div class="pipe-step">LiDAR Input</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Preprocessing</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">AI Classify</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">DTM Gen</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Hydrology</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Flood ML</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">Drain Opt</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step">GIS Output</div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <div class="module-row">
+        <div class="module-num">M1</div>
+        <div class="module-content">
+          <div class="m-title">Ingestion & Preprocessing</div>
+          <div class="m-desc">Read .las/.laz, detect and reproject CRS to UTM, apply statistical outlier removal, normalize elevation, save ground-ready point arrays.</div>
+          <div class="tag-row"><span class="tag">laspy</span><span class="tag">PDAL</span><span class="tag">Open3D</span><span class="tag blue">Input: .laz</span><span class="tag green">Output: clean_points.npy</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M2</div>
+        <div class="module-content">
+          <div class="m-title">AI Point Cloud Classification</div>
+          <div class="m-desc">Deep learning semantic segmentation to label each point: ground, building, vegetation, road, water. Replace rule-based CSF with RandLA-Net for large-scale outdoor LiDAR. Target: mIoU > 75%, Ground F1 > 90%.</div>
+          <div class="tag-row"><span class="tag">RandLA-Net</span><span class="tag">PyTorch</span><span class="tag">KPConv (alt)</span><span class="tag blue">Input: clean_points.npy</span><span class="tag green">Output: classified_points.npy</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M3</div>
+        <div class="module-content">
+          <div class="m-title">DTM Generation</div>
+          <div class="m-desc">Extract ground class points, apply TIN-based Delaunay interpolation, convert to 1m raster, export GeoTIFF with correct CRS. Validate RMSE against ground control points.</div>
+          <div class="tag-row"><span class="tag">GDAL</span><span class="tag">Rasterio</span><span class="tag">scipy.griddata</span><span class="tag blue">Input: ground_points.npy</span><span class="tag green">Output: dtm.tif</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M4</div>
+        <div class="module-content">
+          <div class="m-title">Hydrological Modeling Engine</div>
+          <div class="m-desc">Fill sinks (Planchon-Darboux), compute D∞ flow direction, derive flow accumulation raster, threshold to natural streams, delineate micro-watersheds, identify depressions and low-lying zones.</div>
+          <div class="tag-row"><span class="tag">WhiteboxTools</span><span class="tag">TauDEM</span><span class="tag">RichDEM</span><span class="tag blue">Input: dtm.tif</span><span class="tag green">Output: flow_acc.tif, streams.shp</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M5</div>
+        <div class="module-content">
+          <div class="m-title">Flood & Waterlogging Prediction</div>
+          <div class="m-desc">Per-cell feature extraction (elevation, slope, curvature, flow accumulation, distance to road, impervious ratio, depression depth). Train XGBoost classifier on labeled flood records. Output probability raster; threshold at 0.7 for hotspot polygon.</div>
+          <div class="tag-row"><span class="tag">XGBoost</span><span class="tag">LightGBM</span><span class="tag">scikit-learn</span><span class="tag blue">Input: dtm.tif + flow layers</span><span class="tag green">Output: flood_risk.tif, hotspots.shp</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M6</div>
+        <div class="module-content">
+          <div class="m-title">Drainage Network Optimization</div>
+          <div class="m-desc">Build terrain graph: nodes = flood hotspots + stream junctions + road crossings; edges = feasible drainage paths. Cost function: distance + λ1·elevation_gain + λ2·built_area_penalty + λ3·excavation_volume. Solve with A* (hackathon) → NSGA-II (production). Output polyline shapefile + culvert points + excavation volume estimate.</div>
+          <div class="tag-row"><span class="tag">NetworkX</span><span class="tag">DEAP (NSGA-II)</span><span class="tag">NumPy</span><span class="tag blue">Input: hotspots.shp + dtm.tif</span><span class="tag green">Output: drainage_network.shp</span></div>
+        </div>
+      </div>
+      <div class="module-row">
+        <div class="module-num">M7</div>
+        <div class="module-content">
+          <div class="m-title">GIS Output & Dashboard</div>
+          <div class="m-desc">Serve COG GeoTIFF rasters via GeoServer, package vector layers as shapefiles. Web dashboard with toggleable DTM, flow, flood, and drainage layers. Climate simulation slider (50–200mm rainfall). Before/after drainage comparison view.</div>
+          <div class="tag-row"><span class="tag">FastAPI</span><span class="tag">PostGIS</span><span class="tag">GeoServer</span><span class="tag">React + Leaflet</span><span class="tag green">Output: dashboard + GIS bundle</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Evaluation Metrics -->
+  <div class="section">
+    <div class="section-label">Section 4 — Evaluation Metrics</div>
+    <div class="section-title">How each module is judged</div>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="m-label">Point Cloud Classification</div>
+        <ul class="metric-list">
+          <li>mIoU (target ≥ 75%)</li>
+          <li>Overall Accuracy</li>
+          <li>F1 per class</li>
+          <li>Ground class F1 ≥ 90%</li>
+        </ul>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">DTM Quality</div>
+        <ul class="metric-list">
+          <li>RMSE vs GCPs</li>
+          <li>Mean Absolute Error</li>
+          <li>Slope accuracy</li>
+          <li>Vertical accuracy (LE90)</li>
+        </ul>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">Flood Prediction</div>
+        <ul class="metric-list">
+          <li>ROC-AUC</li>
+          <li>Precision / Recall</li>
+          <li>F1 score</li>
+          <li>Spatial agreement %</li>
+        </ul>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">Hydrological Modeling</div>
+        <ul class="metric-list">
+          <li>Stream similarity index</li>
+          <li>Depression capture rate</li>
+          <li>Watershed delineation IoU</li>
+        </ul>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">Drainage Optimization</div>
+        <ul class="metric-list">
+          <li>Flood volume reduction %</li>
+          <li>Cost vs baseline %</li>
+          <li>Network efficiency index</li>
+          <li>Gravity flow compliance %</li>
+        </ul>
+      </div>
+      <div class="metric-card">
+        <div class="m-label">System Performance</div>
+        <ul class="metric-list">
+          <li>End-to-end pipeline time</li>
+          <li>Memory / GPU usage</li>
+          <li>Tiles processed / hour</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Innovations -->
+  <div class="section">
+    <div class="section-label">Section 5 — Differentiating Innovations</div>
+    <div class="section-title">What separates this from every other team</div>
+    <div class="inno-grid">
+      <div class="inno-card">
+        <div class="i-title">Climate Resilience Simulation</div>
+        <div class="i-desc">Slider for 50/100/200mm rainfall events. Shows drainage overload zones, failure points, and resilience score. Makes the system forward-looking, not just descriptive.</div>
+      </div>
+      <div class="inno-card">
+        <div class="i-title">Explainable Flood AI</div>
+        <div class="i-desc">Click any flood hotspot to see SHAP-driven explanation: why this zone floods, contributing upstream catchment map, AI confidence score. Builds planner trust.</div>
+      </div>
+      <div class="inno-card">
+        <div class="i-title">Village Drainage Risk Index</div>
+        <div class="i-desc">Composite score = w1·(low elevation) + w2·(poor drainage density) + w3·(impervious ratio). Single number for government prioritization across villages.</div>
+      </div>
+      <div class="inno-card">
+        <div class="i-title">Cost-Aware Planning Mode</div>
+        <div class="i-desc">Auto-generates estimated excavation volume, budget approximation, and phase-wise implementation priority. Bridges data analysis and government budget cycles.</div>
+      </div>
+      <div class="inno-card">
+        <div class="i-title">Before vs After Simulation</div>
+        <div class="i-desc">Interactive map comparison: flood extent without drainage vs with proposed network. Visual proof of impact for judges and policymakers.</div>
+      </div>
+      <div class="inno-card">
+        <div class="i-title">Multi-Village Meta-Learning</div>
+        <div class="i-desc">Train on SVAMITVA data from Gujarat, fine-tune for Tamil Nadu via domain adaptation. Demonstrates scalability and transfer beyond demo village.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Team Split -->
+  <div class="section">
+    <div class="section-label">Section 6 — Team Structure</div>
+    <div class="section-title">5-person role split with file-based interface</div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="t-role">Person A — Data Engineer</div>
+        <div class="t-tasks">Read .las/.laz, CRS reprojection, noise filtering, save clean_points.npy. Owns all data ingest tooling.</div>
+        <div class="tag-row" style="margin-top:6px;"><span class="tag blue">→ clean_points.npy</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-role">Person B — ML Engineer</div>
+        <div class="t-tasks">Train RandLA-Net on SHP labels, evaluate mIoU, produce classified point cloud. Fallback: percentile threshold if time is short.</div>
+        <div class="tag-row" style="margin-top:6px;"><span class="tag blue">→ classified_points.npy</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-role">Person C — Terrain Engineer</div>
+        <div class="t-tasks">Extract ground class, TIN interpolation, rasterize to 1m GeoTIFF, validate with GCPs, export dtm.npy + dtm.tif.</div>
+        <div class="tag-row" style="margin-top:6px;"><span class="tag blue">→ dtm.tif / dtm.npy</span></div>
+      </div>
+      <div class="team-card">
+        <div class="t-role">Person D — Hydro + Algorithm</div>
+        <div class="t-tasks">Sink fill → D∞ flow → accumulation → stream extract → XGBoost flood model → A* drainage optimization. Core science module.</div>
+        <div class="tag-row" style="margin-top:6px;"><span class="tag blue">→ drainage.shp, risk.tif</span></div>
+      </div>
+      <div class="team-card" style="grid-column: span 2;">
+        <div class="t-role">Person E — Integration + Submission</div>
+        <div class="t-tasks">Assemble all outputs, build Leaflet dashboard, create final GIS bundle (DTM, flood SHP, drainage SHP, cost map), write submission, prepare PPT narrative and demo script.</div>
+        <div class="tag-row" style="margin-top:6px;"><span class="tag blue">→ Dashboard + GIS Bundle + PPT</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px; background: var(--color-background-secondary); border:none;">
+      <div style="font-size:12px; font-weight:500; margin-bottom:4px;">File-based interface rule</div>
+      <div style="font-size:12px; color:var(--color-text-secondary); line-height:1.6;">Each person depends only on their input <em>file</em>, never on another person's running code. All files shared via Google Drive under /data/, /code/, /outputs/. No blocking dependencies.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Roadmap -->
+  <div class="section">
+    <div class="section-label">Section 7 — Implementation Roadmap</div>
+    <div class="section-title">8-week sprint plan</div>
+    <div class="card">
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 1</div><div class="tl-title">Data engineering & baseline DTM</div><div class="tl-desc">Environment setup, .laz ingestion, CSF ground filter, first raster export. Deliverable: input.laz → dtm.tif working.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 2</div><div class="tl-title">AI classification layer</div><div class="tl-desc">Prepare labeled dataset from SHP, train RandLA-Net, validate mIoU, replace baseline ground extraction. Deliverable: classified_points.npy + mIoU report.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 3</div><div class="tl-title">Hydrological engine</div><div class="tl-desc">Sink fill, D∞ flow direction, accumulation raster, stream vectors, depression polygons. Deliverable: flow_acc.tif + streams.shp.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 4</div><div class="tl-title">Flood prediction model</div><div class="tl-desc">Feature engineering per cell, XGBoost training, hotspot polygon generation, ROC-AUC evaluation. Deliverable: flood_risk.tif + hotspots.shp.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 5</div><div class="tl-title">Drainage optimization engine</div><div class="tl-desc">Build terrain graph, implement A* with custom cost function, generate drainage polyline, culvert points, excavation volume. Deliverable: drainage_network.shp.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 6</div><div class="tl-title">GIS outputs & dashboard</div><div class="tl-desc">FastAPI backend, GeoServer raster serving, React + Leaflet frontend with toggleable layers and before/after comparison.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 7</div><div class="tl-title">Climate simulation + explainability</div><div class="tl-desc">Rainfall scenario slider, SHAP-driven flood explanations, village risk index computation. Hackathon-winning differentiator.</div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-phase">Week 8</div><div class="tl-title">Scaling, validation & deployment</div><div class="tl-desc">Tile-based parallel processing (Dask/Ray), cloud storage as COG, NIC MeghRaj deployment plan, final validation on second village dataset.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Risk -->
+  <div class="section">
+    <div class="section-label">Section 8 — Risks & Mitigations</div>
+    <div class="section-title">Known failure points and fallbacks</div>
+    <div class="card">
+      <div class="risk-row"><div class="risk-label">Low classification mIoU</div><div class="risk-mit">Ensemble RandLA-Net + CSF filter; fine-tune on village-specific labels. Fallback: percentile height threshold for ground.</div></div>
+      <div class="risk-row"><div class="risk-label">Flat terrain / flow errors</div><div class="risk-mit">Switch from D8 to MFD for multi-directional flow distribution. Increase sink-fill depth tolerance.</div></div>
+      <div class="risk-row"><div class="risk-label">GPU memory overflow</div><div class="risk-mit">Apply voxel downsampling before inference. Tile point cloud into 256m × 256m blocks.</div></div>
+      <div class="risk-row"><div class="risk-label">No flood ground truth labels</div><div class="risk-mit">Use synthetic labels from depression depth + flow accumulation thresholds. Document clearly as proxy labels.</div></div>
+      <div class="risk-row"><div class="risk-label">Optimization runtime too slow</div><div class="risk-mit">Use A* (fast, explainable) for demo. Pitch NSGA-II as production upgrade. Pre-compute graph edges.</div></div>
+      <div class="risk-row"><div class="risk-label">Time shortage</div><div class="risk-mit">M5 (Flood ML) and M6 (Dashboard) are drop-safe. Core demo = M1–M4 + M6 (basic map). Never drop M7 (GIS export).</div></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Outputs -->
+  <div class="section">
+    <div class="section-label">Section 9 — Deliverables</div>
+    <div class="section-title">GIS-ready outputs and submission artifacts</div>
+    <div class="card">
+      <div style="font-size:13px; font-weight:500; margin-bottom:10px;">GIS layer bundle (judges download this)</div>
+      <table style="width:100%; font-size:12px; border-collapse:collapse;">
+        <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">DTM.tif</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">Cloud-optimized GeoTIFF, 1m resolution, UTM projection</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag green">GeoTIFF</span></td>
+        </tr>
+        <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">flow_accumulation.tif</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">D∞ contributing area raster</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag green">GeoTIFF</span></td>
+        </tr>
+        <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">flood_hotspots.shp</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">ML-predicted waterlogging zones with risk score attribute</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag amber">Shapefile</span></td>
+        </tr>
+        <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">drainage_network.shp</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">Optimized drainage polylines + culvert point layer</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag amber">Shapefile</span></td>
+        </tr>
+        <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">cost_map.tif</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">Excavation cost surface, phased by priority zone</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag green">GeoTIFF</span></td>
+        </tr>
+        <tr>
+          <td style="padding:6px 0; color:var(--color-text-secondary); font-family:var(--font-mono);">risk_score_map.tif</td>
+          <td style="padding:6px 8px; color:var(--color-text-secondary);">Village Drainage Risk Index raster (composite score)</td>
+          <td style="padding:6px 0; text-align:right;"><span class="tag green">GeoTIFF</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="card" style="margin-top:10px;">
+      <div style="font-size:13px; font-weight:500; margin-bottom:8px;">Submission artifacts</div>
+      <div class="kpi-row">
+        <span class="kpi">GitHub repo + README</span>
+        <span class="kpi">Web dashboard (live URL)</span>
+        <span class="kpi">5-min demo video</span>
+        <span class="kpi">Architecture diagram</span>
+        <span class="kpi">Final report (PDF)</span>
+        <span class="kpi">Evaluation metrics table</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Scalability -->
+  <div class="section">
+    <div class="section-label">Section 10 — Scalability & Deployment</div>
+    <div class="section-title">From one village demo to national infrastructure</div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="p-head">Tile-based processing</div>
+        <div class="p-body">Divide village into 256×256m blocks, process in parallel using Dask or Ray. Linear scaling with added compute nodes.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">Cloud storage (COG)</div>
+        <div class="p-body">Rasters stored as Cloud-Optimized GeoTIFF on S3 or NIC MeghRaj. Supports on-demand tiled serving with no full-file download.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">Government integration</div>
+        <div class="p-body">REST API for Panchayat GIS systems, PMGSY, and Jal Jeevan Mission. Hosted on NIC MeghRaj for data sovereignty.</div>
+      </div>
+      <div class="problem-card">
+        <div class="p-head">Multi-state transfer</div>
+        <div class="p-body">Train on Gujarat SVAMITVA data, fine-tune for Tamil Nadu via domain adaptation. Meta-model learns terrain patterns across regions.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Pitch -->
+  <div class="section">
+    <div class="section-label">Section 11 — Winning Pitch Line</div>
+    <div class="card" style="border-left: 3px solid var(--color-border-success); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; background: var(--color-background-success);">
+      <div style="font-size:14px; font-weight:500; color:var(--color-text-success); line-height:1.6;">"We built an AI-powered rural drainage planning engine that converts drone LiDAR into actionable, cost-optimized infrastructure plans — enabling climate-resilient villages at scale."</div>
+    </div>
+    <div class="card" style="margin-top:10px;">
+      <div style="font-size:13px; font-weight:500; margin-bottom:6px;">What you show in 5 minutes</div>
+      <div style="font-size:13px; color:var(--color-text-secondary); line-height:1.8;">
+        1. Upload .laz → watch AI classify it in real-time &nbsp;→&nbsp; 
+        2. DTM appears on map &nbsp;→&nbsp; 
+        3. Flow paths light up &nbsp;→&nbsp; 
+        4. Red flood hotspots emerge &nbsp;→&nbsp; 
+        5. Blue drainage network overlays (optimized) &nbsp;→&nbsp; 
+        6. Drag rainfall slider to 200mm → show resilience score drop and failure zones &nbsp;→&nbsp; 
+        7. Click hotspot → explainability panel opens
+      </div>
+    </div>
+  </div>
+
+</div>
